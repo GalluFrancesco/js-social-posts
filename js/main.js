@@ -39,11 +39,6 @@ function output(container, listPost){
     }
 }
 
-//funzione per cambiare colore tasto like che riceve come parametro un pulsante
-function eventBtnColor(btn){
-    btn.classList.add('like-button--liked');
-}
-
 //creo un array di post
 const posts = [
 
@@ -82,15 +77,23 @@ output(container, posts);
 //prendo tutti i like button dall'html creato
 const btn=document.querySelectorAll('.like-button');
 
+let counter=0;
+
 //ciclo l'array di bottoni e ci aggiungo l'evento click
 for(let i=0; i<btn.length; i++){
     btn[i].addEventListener("click", function(){
-        
+        counter++;
         //sfrutto il fatto che l'array di bottoni like e quello dei post siano corrispondenti
         //così da prendere il il post con l'id corretto e modificarne il contenuto
         const htmlLike=document.getElementById(`like-counter-${posts[i].id}`);
-        posts[i].counterLike=posts[i].counterLike+1;
+        
+        if(counter % 2===0){
+            posts[i].counterLike--;
+        }else{
+            posts[i].counterLike++; 
+            }
+
         htmlLike.innerHTML=`${posts[i].counterLike}`;
-        eventBtnColor(this);
+        btn[i].classList.toggle('like-button--liked');
     })
 }
